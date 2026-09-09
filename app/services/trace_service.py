@@ -1,5 +1,5 @@
 import logging
-from asyncio import CancelledError, Task, create_task
+from asyncio import Task, create_task
 from typing import Any
 
 from app.models.proto.trace_types import Visibility
@@ -223,7 +223,8 @@ async def _recompress(
                     where={'id': trace_id, 'file_id': old_file_id},
                     conn=conn,
                 )
-        except Exception, CancelledError:
+        except BaseException:
+            # Also clean up on cancellation before propagating the exception.
             await TRACE_STORAGE.delete(new_file_id)
             raise
 
