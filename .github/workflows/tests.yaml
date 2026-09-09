@@ -1,12 +1,10 @@
 name: Run tests
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -20,9 +18,13 @@ jobs:
             implementation: cython
       fail-fast: false
 
+    timeout-minutes: 60
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 9310e60f49b21c378610fbbe86f5a66b27bb011e
+          persist-credentials: false
       - uses: ./.github/actions/setup
 
       - name: Build Cython modules

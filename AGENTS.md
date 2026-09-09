@@ -672,3 +672,7 @@ Environment/tooling:
 - `shellscripts/run-tests.sh`
 
 Keep this guide concrete and current. If code changes the real workflow, update this file immediately.
+
+## Fork-only CI validation override
+
+This fork default branch only exposes the manually dispatched tests workflow. It checks out exactly 9310e60f49b21c378610fbbe86f5a66b27bb011e with read-only contents permission, keeps the original Python/Cython matrix and extended tests, and times out jobs after 60 minutes. Auto-update and deployment workflow sources are preserved under .github/disabled-workflows and cannot be dispatched or scheduled there. This override is not part of the upstream delivery patch.
